@@ -6,6 +6,27 @@ edition = "2024"
 [dependencies]
 fst = "0.4.7"
 lazy_static = "1.5.0"
+tokio = { version = "1.53.1", features = ["signal", "macros", "rt-multi-thread"] }
+axum = { version = "0.8.9", features = [] }
+base64 = "0.22"
+maud = { version = "0.27.0", features = ["axum"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tower = { version = "0.5.3", features = ["util"] }
+tower-http = { version = "0.7.0", features = [
+    "catch-panic",
+    "cors",
+    "sensitive-headers",
+    "timeout",
+    "trace",
+    "fs",
+] }
+dotenvy = "0.15.7"
+tracing = { version = "0.1.44", features = ["log"] }
+log = "0.4.33"
+env_logger = "0.11.11"
+anyhow = "1.0.104"
+thiserror = "2.0.20"
 
 [build-dependencies]
 fst = "0.4.7"

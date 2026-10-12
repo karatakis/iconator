@@ -1,4 +1,4 @@
-const EXT_ICONS: [(&str, u64); 711] = [
+static EXT_ICONS: [(&str, u64); 711] = [
     (".kusto", 308),
     ("3g2", 657),
     ("3gp", 657),
@@ -712,7 +712,7 @@ const EXT_ICONS: [(&str, u64); 711] = [
     ("zip", 712),
 ];
 
-const FILENAME_ICONS: [(&str, u64); 1054] = [
+static FILENAME_ICONS: [(&str, u64); 1054] = [
     (".all-contributorsrc", 0),
     (".angular-cli.json", 1),
     (".angular.json", 1),
@@ -1769,7 +1769,7 @@ const FILENAME_ICONS: [(&str, u64); 1054] = [
     ("yarn.lock", 705),
 ];
 
-const FOLDER_ICONS: [(&str, u64); 417] = [
+static FOLDER_ICONS: [(&str, u64); 417] = [
     (".api", 726),
     (".apis", 726),
     (".app", 728),
