@@ -20,62 +20,62 @@ GET {{host}}/health
 ### -------------------------------------------------------------------------
 ### File lookups (expect 200 {"icon_id": 525} — library test vector)
 
-# base64 of "src/main.rs" (unpadded; same in standard and URL-safe alphabets)
+### base64 of "src/main.rs" (unpadded; same in standard and URL-safe alphabets)
 GET {{host}}/api/icon/file?path=c3JjL21haW4ucnM
 
 ### Standard padded base64 of "src/main.rs" — the other accepted alphabet
 GET {{host}}/api/icon/file?path=c3JjL21haW4ucnM=
 
-# ".gitignore" is in the filename table → icon 206
+###".gitignore" is in the filename table → icon 206
 GET {{host}}/api/icon/file?path=LmdpdGlnbm9yZQ
 
-# "weird name #?.rs" — every character hostile in a query string
+###"weird name #?.rs" — every character hostile in a query string
 GET {{host}}/api/icon/file?path=d2VpcmQgbmFtZSAjPy5ycw
 
 ### -------------------------------------------------------------------------
 ### Folder lookups (expect 200 {"icon_id": 862} — library test vector)
 
-# base64 of ".github"
+### base64 of ".github"
 GET {{host}}/api/icon/folder?path=LmdpdGh1Yg
 
-# base64 of "node_modules"
+### base64 of "node_modules"
 GET {{host}}/api/icon/folder?path=bm9kZV9tb2R1bGVz
 
-# base64 of "src"
+### base64 of "src"
 GET {{host}}/api/icon/folder?path=c3Jj
 
 ### -------------------------------------------------------------------------
 ### Lookup misses — expect 404 {"error": "no icon found"}
 
-# unknown extension
+### unknown extension
 GET {{host}}/api/icon/file?path=dW5rbm93bi54eXo
 
-# "LICENSE": unknown extensionless filename — library panics, server maps it to 404
+### "LICENSE": unknown extensionless filename — library panics, server maps it to 404
 GET {{host}}/api/icon/file?path=TElDRU5TRQ
 
-# "foo/..": path without a file name — same panic-safety path
+### "foo/..": path without a file name — same panic-safety path
 GET {{host}}/api/icon/file?path=Zm9vLy4u
 GET {{host}}/api/icon/folder?path=Zm9vLy4u
 
-# unknown folder
+### unknown folder
 GET {{host}}/api/icon/folder?path=ZGVmaW5pdGVseS1ub3QtYS1rbm93bi1mb2xkZXI
 
 ### -------------------------------------------------------------------------
 ### Bad requests — expect 400
 
-# missing `path` entirely → {"error": "missing required query parameter 'path'"}
+### missing `path` entirely → {"error": "missing required query parameter 'path'"}
 GET {{host}}/api/icon/file
 
-# empty `path` → missing-path error
+### empty `path` → missing-path error
 GET {{host}}/api/icon/file?path=
 
-# base64 of an empty string → missing-path error
+### base64 of an empty string → missing-path error
 GET {{host}}/api/icon/folder?path====
 
-# plain (non-base64) path → {"error": "invalid base64 in query parameter 'path'"}
+### plain (non-base64) path → {"error": "invalid base64 in query parameter 'path'"}
 GET {{host}}/api/icon/file?path=src/main.rs
 
-# base64 that decodes to non-UTF-8 bytes → invalid-base64 error
+### base64 that decodes to non-UTF-8 bytes → invalid-base64 error
 GET {{host}}/api/icon/file?path=/w==
 
 ### -------------------------------------------------------------------------
@@ -89,29 +89,29 @@ content-type: application/json
 ### -------------------------------------------------------------------------
 ### SVG assets
 
-# expect 200, image/svg+xml
+### expect 200, image/svg+xml
 GET {{host}}/icons/525.svg
 
-# expect 200 (folder icon for .github)
+### expect 200 (folder icon for .github)
 GET {{host}}/icons/862.svg
 
-# expect 404 (ServeDir default)
+### expect 404 (ServeDir default)
 GET {{host}}/icons/999999.svg
 
-# path traversal is rejected by ServeDir — expect 404
+### path traversal is rejected by ServeDir — expect 404
 GET {{host}}/icons/../Cargo.toml
 
 ### -------------------------------------------------------------------------
 ### HTML UI
 
-# index page: lookup form + icon grid — expect 200 text/html
+### index page: lookup form + icon grid — expect 200 text/html
 GET {{host}}/
 
-# submitted form state: plain path + kind, result rendered inline
+### submitted form state: plain path + kind, result rendered inline
 GET {{host}}/?path=src/main.rs&kind=file
 
-# miss path: page still 200, "no icon found" message rendered
+### miss path: page still 200, "no icon found" message rendered
 GET {{host}}/?path=unknown.xyz&kind=file
 
-# folder kind via the form
+### folder kind via the form
 GET {{host}}/?path=.github&kind=folder
